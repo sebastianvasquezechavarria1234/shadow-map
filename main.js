@@ -6,6 +6,10 @@ import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { ShadowMapViewer } from 'three/addons/utils/ShadowMapViewer.js';
 
+const textureLoader = new THREE.TextureLoader();
+const diffuseMap = textureLoader.load('textures/forest_ground_06_diff_1k.jpg');
+const dispMap = textureLoader.load('textures/forest_ground_06_disp_1k.png');
+
 const SHADOW_MAP_WIDTH = 2048, SHADOW_MAP_HEIGHT = 1024;
 const SCREEN_WIDTH = window.innerWidth;
 const SCREEN_HEIGHT = window.innerHeight;
@@ -114,7 +118,11 @@ function createHUD() {
 function createScene() {
     // GROUND
     const geometry = new THREE.PlaneGeometry(100, 100);
-    const planeMaterial = new THREE.MeshPhongMaterial({ color: 0xffdd99 });
+    const planeMaterial = new THREE.MeshPhongMaterial({ 
+        map: diffuseMap,
+        displacementMap: dispMap,
+        displacementScale: 0.5
+    });
 
     const ground = new THREE.Mesh(geometry, planeMaterial);
     ground.position.set(0, FLOOR, 0);
